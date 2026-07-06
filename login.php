@@ -2,7 +2,7 @@
 // login.php - Page de connexion
 session_start();
 
-// Si déjà connecté, rediriger vers dashboard
+// Si déjà connecté, rediriger vers le tableau de bord
 if (isset($_SESSION['user_id'])) {
     header('Location: dashboard.php');
     exit();
@@ -16,32 +16,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($email) && !empty($mot_de_passe)) {
         try {
-            // Connexion à la base
             $pdo = new PDO("mysql:host=localhost;dbname=sunuprojet;charset=utf8", "root", "");
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // Rechercher l'utilisateur
             $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE email = ? AND actif = 1");
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Vérifier le mot de passe
             if ($user && password_verify($mot_de_passe, $user['mot_de_passe_hash'])) {
-                // Connexion réussie
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['nom'] = $user['nom'];
                 $_SESSION['prenom'] = $user['prenom'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['email'] = $user['email'];
                 
-                // Rediriger vers dashboard
                 header('Location: dashboard.php');
                 exit();
             } else {
                 $erreur = 'Email ou mot de passe incorrect';
             }
         } catch(PDOException $e) {
-            $erreur = 'Erreur de connexion à la base de données : ' . $e->getMessage();
+            $erreur = 'Erreur de connexion à la base de données';
         }
     } else {
         $erreur = 'Veuillez remplir tous les champs';
@@ -118,10 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="subtitle">Plateforme d'approvisionnement</p>
             
             <?php if ($erreur): ?>
-                <div class="alert alert-danger alert-dismissible fade show">
-                    <?= htmlspecialchars($erreur) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+                <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
             <?php endif; ?>
             
             <form method="POST">

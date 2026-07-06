@@ -1,5 +1,4 @@
 <?php
-// Récupérer l'URL complète pour activer le bon lien
 $current_path = $_SERVER['REQUEST_URI'];
 ?>
 <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="min-height: 100vh; padding: 20px 0;">
@@ -7,7 +6,7 @@ $current_path = $_SERVER['REQUEST_URI'];
         
         <!-- TABLEAU DE BORD -->
         <li class="nav-item">
-            <a class="nav-link <?= (strpos($current_path, 'dashboard.php') !== false || $current_path == '/sunuprojet/' || $current_path == '/sunuprojet/index.php') ? 'active' : '' ?>" href="/sunuprojet/dashboard.php">
+            <a class="nav-link <?= (strpos($current_path, 'dashboard.php') !== false || $current_path == '/sunuprojet/') ? 'active' : '' ?>" href="/sunuprojet/dashboard.php">
                 <i class="bi bi-speedometer2"></i> Tableau de bord
             </a>
         </li>
@@ -22,7 +21,7 @@ $current_path = $_SERVER['REQUEST_URI'];
         <!-- FOURNISSEURS -->
         <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'acheteur'): ?>
         <li class="nav-item">
-            <a class="nav-link <?= (strpos($current_path, 'modules/fournisseurs') !== false && strpos($current_path, 'modules/rapports') === false) ? 'active' : '' ?>" href="/sunuprojet/modules/fournisseurs/index.php">
+            <a class="nav-link <?= strpos($current_path, 'modules/fournisseurs') !== false ? 'active' : '' ?>" href="/sunuprojet/modules/fournisseurs/index.php">
                 <i class="bi bi-building"></i> Fournisseurs
             </a>
         </li>

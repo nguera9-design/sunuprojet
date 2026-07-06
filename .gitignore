@@ -1,0 +1,21 @@
+# Fichiers de configuration sensibles
+config/database.php
+
+# Fichiers temporaires locaux
+reset_password_definitif.php
+hash.php
+test_db.php
+test_vendor.php
+
+# Fichiers de logs
+*.log
+error_log
+
+# Fichiers système
+Thumbs.db
+.DS_Store
+
+# Fichiers compressés
+*.zip
+*.rar
+*.7z
